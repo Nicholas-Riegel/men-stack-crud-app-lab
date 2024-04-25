@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<h1>Edit Page</h1>
+
+<form action="/blog/<%= fullPost._id%>?_method=PUT" method="POST">
+
+    <label for="post-title">Title</label>
+    <br>
+    <input type="text" name="post-title" id="post-title" required value="<%= fullPost.postTitle%>">
+    <br>
+    <label for="post-text">Post</label>
+    <br>
+    <textarea name="post-text" id="post-text" cols="30" rows="10" required><%= fullPost.postBody %></textarea>
+    <br>
+    <button type="submit">Submit</button>
+
+</form>
+
+<%- include('partials/foot') %>

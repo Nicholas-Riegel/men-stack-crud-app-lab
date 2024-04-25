@@ -1,0 +1,13 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<h1>Show Page</h1>
+
+<h1><%= fullPost.postTitle%></h1>
+<p><%= fullPost.postBody%></p>
+
+<form action="/blog/<%= fullPost._id %>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+</form>
+<a href="/blog/<%= fullPost._id %>/edit">Edit</a>
+<%- include('partials/foot') %>

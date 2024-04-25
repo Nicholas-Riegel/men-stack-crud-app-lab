@@ -1,6 +1,11 @@
 <%- include('partials/head') %>
 <%- include('partials/nav') %>
 
-<h1>hello world</h1>
+<h1>Home Page</h1>
+<% allPosts.forEach(element => { %>
+
+    <a href="blog/<%= element._id %>"><%= element.postTitle %></a>
+
+<% }); %>
 
 <%- include('partials/foot') %>
