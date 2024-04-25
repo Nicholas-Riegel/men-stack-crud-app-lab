@@ -1,19 +1,17 @@
 //----------------------------------Constants and Variables-----------------------
+
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-dotenv.config()
-const methodOverride = require("method-override"); // new
-const morgan = require("morgan"); //new
+require('dotenv').config()
+const methodOverride = require("method-override"); 
 const port = 3000;
 const Post = require('./models/post')
 
 //----------------------------------Middleware------------------------------------
 
 app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride("_method")); // new
-app.use(morgan("dev")); //new
+app.use(methodOverride("_method")); 
 
 //----------------------------------Connection------------------------------------
 
@@ -24,7 +22,7 @@ mongoose.connection.on("connected", () => {
 
 //----------------------------------Routes----------------------------------------
 
-// GET	    /blog	        Index	    Displays a list of all plants
+// get home page
 app.get('/blog', async (req, res)=>{
     const allPosts = await Post.find()
     res.render("index.ejs", {
@@ -33,14 +31,14 @@ app.get('/blog', async (req, res)=>{
     })
 })
 
-// GET	    /blog/new       New	        Shows a form to create a new plant
+// get create new post page
 app.get('/blog/new', (req, res)=>{
     res.render("new.ejs", {
         title: "Nick's Blog: Create",
     })
 })
 
-// POST	    /blog	        Create	    Creates a new plant
+// post new post to db
 app.post('/blog', async (req, res)=>{
     await Post.create({
         postTitle: req.body['post-title'],
@@ -49,7 +47,7 @@ app.post('/blog', async (req, res)=>{
     res.redirect('/blog')
 })
 
-// GET	    /blog/:id	    Show	    Displays a specific plant by its ID
+// get show page for individual post
 app.get('/blog/:id', async (req, res)=>{
     const fullPost = await Post.findById(req.params.id)
     res.render('show.ejs', {
@@ -58,7 +56,7 @@ app.get('/blog/:id', async (req, res)=>{
     })
 })
 
-// GET	    /blog/:id/edit  Edit	    Shows a form to edit an existing plant
+// get edit page
 app.get('/blog/:id/edit', async (req, res)=>{
     const fullPost = await Post.findById(req.params.id)
     res.render('edit.ejs', {
@@ -67,7 +65,7 @@ app.get('/blog/:id/edit', async (req, res)=>{
     })
 })
 
-// PUT	    /blog/:id	    Update	    Updates a specific plant by its ID
+// put edited post to db
 app.put('/blog/:id', async (req, res)=>{
     const editedPost = await Post.findByIdAndUpdate(req.params.id, {
         postTitle: req.body['post-title'],
@@ -76,7 +74,7 @@ app.put('/blog/:id', async (req, res)=>{
     res.redirect(`/blog/${req.params.id}`)
 })
 
-// DELETE	/blog/:id	    Destroy	    Deletes a specific plant by its ID
+// delete post
 app.delete('/blog/:id', async (req, res)=>{
     await Post.findByIdAndDelete(req.params.id)
     res.redirect('/blog')
